@@ -48,7 +48,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "tic_tac_toe.presentation.rest.middlewares.error_handler_middleware",
 ]
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ROOT_URLCONF = "config.urls"
 
