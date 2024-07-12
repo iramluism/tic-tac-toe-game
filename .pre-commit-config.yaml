@@ -1,0 +1,34 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: local
+    hooks:
+    - id: autoflake
+      name: "autoflake: reformat unused imports and variables"
+      entry: autoflake
+      files: app|tests
+      language: python
+      args: [--remove-all-unused-imports, --in-place]
+      
+    - id: isort
+      name: "isort: reformat imports (order and remove duplicated imports)"
+      language: python
+      entry: isort
+      files: app|tests
+      stages: [commit]
+      args: [--cr setup.cfg]
+      
+    - id: black
+      name: "black: reformat python code (max line length, syntax, double quotes, etc)"
+      entry: black
+      files: app|tests
+      language: python
+      exclude_types:
+        - "json"
+
+    - id: flake8
+      name: "flake8: check python code"
+      stages: [commit]
+      files: app|tests
+      language: system
+      entry: flake8 --config setup.cfg

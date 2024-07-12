@@ -1,0 +1,2 @@
+-r prod.txt
+pre-commit==3.7.1
