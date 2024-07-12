@@ -7,9 +7,10 @@ class Player(models.Model):
 
 
 class GameSession(models.Model):
-    id = models.CharField(primary_key=True)
-    board_points = models.CharField()
-    winner = models.CharField(null=True, default=None)
+    id = models.CharField(primary_key=True, max_length=20)
+    board_points = models.CharField(max_length=200)
+    winner = models.CharField(null=True, default=None, max_length=20)
+    next_turn = models.IntegerField(default=0)
     is_over = models.BooleanField(default=False)
 
 

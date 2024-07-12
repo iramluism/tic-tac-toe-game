@@ -32,3 +32,6 @@ class IPlayerRepository:
 
     def get_user_session(self, player: Player, timeout: int) -> UserSession:
         raise NotImplementedError()
+
+    def validate_user_session(self, user_session: UserSession) -> Optional[Player]:
+        raise NotImplementedError()

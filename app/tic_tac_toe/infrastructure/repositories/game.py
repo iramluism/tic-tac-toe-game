@@ -9,7 +9,7 @@ from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.repositories import IGameRepository
 from tic_tac_toe.infrastructure.repositories.models import GameSession as DBGameSession
 from tic_tac_toe.infrastructure.repositories.models import (
-    GameSessionPlayer as DBGameSessionPlayer,
+    GameSessionPlayer as DBGamePlayer,
 )
 
 
@@ -21,20 +21,20 @@ class GameRepository(IGameRepository):
         pass
 
     def save_session(self, game_session: GameSession) -> GameSession:
-        db_players = []
-        for player in game_session.players:
-            db_player = DBGameSessionPlayer.objects.create(
-                game_session_id=game_session.id, name=player.name
-            )
-
-            db_players.append(db_player)
-
-        DBGameSession.objects.create(
+        db_game_session = DBGameSession.objects.create(
             id=game_session.id,
             board_points=json.dumps(game_session.game.board.points),
             winner=game_session.winner,
             is_over=game_session.is_over,
         )
+
+        db_players = []
+        for player in game_session.players:
+            db_player = DBGamePlayer.objects.create(
+                game_session_id=db_game_session, name=player.name
+            )
+
+            db_players.append(db_player)
 
         return game_session
 
@@ -44,7 +44,7 @@ class GameRepository(IGameRepository):
         if not db_game_session:
             return None
 
-        db_players = DBGameSessionPlayer.objects.filter(Q(game_session_id=session_id))
+        db_players = DBGamePlayer.objects.filter(Q(game_session_id=session_id))
 
         players = []
         for db_player in db_players:

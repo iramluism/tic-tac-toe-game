@@ -58,11 +58,11 @@ class Game(Entity):
 class GameSession(Entity):
     game: Game
     players: List[Player]
-    current_player: Player
+    next_turn: int = 0
     winner: Optional[Player] = None
     is_over: bool = False
 
 
 class TicTacToeGame(Game):
     name: str = "TicTacToe"
-    board: Board = Field(default_factory=Board(size=(3, 3)))
+    board: Board = Field(default_factory=lambda: Board(size=(3, 3)))

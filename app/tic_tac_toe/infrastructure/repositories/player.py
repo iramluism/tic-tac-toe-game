@@ -51,3 +51,15 @@ class PlayerRepository(IPlayerRepository):
         session = jwt.encode(payload, key=settings.SECRET_KEY, algorithm="HS256")
 
         return UserSession(session)
+
+    def validate_user_session(self, user_session: UserSession) -> Optional[Player]:
+        try:
+            payload = jwt.decode(
+                user_session, key=settings.SECRET_KEY, algorithms=["HS256"]
+            )
+        except (jwt.DecodeError, jwt.ExpiredSignatureError):
+            return None
+
+        player = Player(name=payload["name"])
+
+        return player

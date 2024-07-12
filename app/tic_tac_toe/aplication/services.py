@@ -49,6 +49,18 @@ class AuthenticatePlayer(Service):
         return user_session
 
 
+class ValidateUserSessionService(Service):
+    _player_repository = inject.instance(IPlayerRepository)
+
+    def execute(self, user_session: UserSession) -> Player:
+        player = self._player_repository.validate_user_session(user_session)
+
+        if not player:
+            raise exceptions.InvalidUserSessionException()
+
+        return player
+
+
 class StartTicTacToeGameService(Service):
     _game_repository = inject.instance(IGameRepository)
 
