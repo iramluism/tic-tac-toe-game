@@ -12,4 +12,4 @@ class PlayerSerializer:
 
     @classmethod
     def to_dict(self, entity: Player):
-        return entity.model_dump(exclude={"password"})
+        return entity.model_dump(exclude={"password", "id"})
