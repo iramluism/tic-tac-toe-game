@@ -9,20 +9,19 @@ class PlayerRepository(IPlayerRepository):
     def save(self, player: Player) -> Player:
         User.objects.create_user(
             username=player.name,
-            password=player.password,
+            password=player.password.get_secret_value(),
         )
 
         return player
 
     def get_by_name(self, name: str) -> Optional[Player]:
-        db_player = User.objects.get(username=name)
-
-        if not db_player:
+        try:
+            db_player = User.objects.get(username=name)
+        except User.DoesNotExist:
             return None
 
         player = Player(
-            user_id=db_player.user_id,
-            name=db_player.name,
+            name=db_player.username,
         )
 
         return player

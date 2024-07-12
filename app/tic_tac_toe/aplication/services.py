@@ -20,12 +20,12 @@ class CreateGameService(Service):
 class CreatePlayerService(Service):
     _player_repository = inject.instance(IPlayerRepository)
 
-    def execute(self, user_id, name: str) -> Player:
-        player = self._player_repository.get_by_name(name)
+    def execute(self, player: Player) -> Player:
+        current_player = self._player_repository.get_by_name(name=player.name)
 
-        if player:
+        if current_player:
             raise exceptions.PlayerAlreadyExistsException()
 
-        player = self._player_repository.save(user_id, name)
+        player = self._player_repository.save(player)
 
         return player
