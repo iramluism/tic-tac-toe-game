@@ -4,6 +4,7 @@ from enum import Enum
 
 class ErrorCode(Enum):
     PLAYER_ALREADY_EXISTS = 100409
+    PLAYER_UNAUTHORIZED = 100401
 
 
 @dataclass
@@ -22,3 +23,8 @@ class DomainException(Exception):
 @dataclass
 class PlayerAlreadyExistsException(DomainException):
     error_code: ErrorCode = ErrorCode.PLAYER_ALREADY_EXISTS
+
+
+@dataclass
+class PlayerUnAuthorizedException(DomainException):
+    error_code: ErrorCode = ErrorCode.PLAYER_UNAUTHORIZED

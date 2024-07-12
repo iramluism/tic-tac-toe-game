@@ -1,6 +1,10 @@
 from collections import namedtuple
+from typing import NewType
 
 from pydantic import BaseModel
+
+UserSession = NewType("UserSession", str)
+
 
 Position = namedtuple("Position", ["x", "y"])
 

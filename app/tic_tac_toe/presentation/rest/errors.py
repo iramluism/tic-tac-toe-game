@@ -4,6 +4,7 @@ from tic_tac_toe.domain.exceptions import ErrorCode
 
 ErrorCodeMap = {
     ErrorCode.PLAYER_ALREADY_EXISTS: HTTPStatus.CONFLICT,  # 409
+    ErrorCode.PLAYER_UNAUTHORIZED: HTTPStatus.UNAUTHORIZED,  # 401
 }
 
 
