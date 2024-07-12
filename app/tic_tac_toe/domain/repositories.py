@@ -1,7 +1,7 @@
 from tic_tac_toe.domain.entities import Game
 
 
-class GameRepository:
+class IGameRepository:
     def save(self, game: Game):
         raise NotImplementedError()
 
@@ -9,7 +9,7 @@ class GameRepository:
         raise NotImplementedError()
 
 
-class PlayerRepository:
+class IPlayerRepository:
     def save(self, player):
         raise NotImplementedError()
 

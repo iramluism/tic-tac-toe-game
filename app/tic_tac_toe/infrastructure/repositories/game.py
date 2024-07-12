@@ -1,7 +1,7 @@
-from tic_tac_toe.domain import repositories
+from tic_tac_toe.domain.repositories import IGameRepository
 
 
-class GameRepository(repositories.GameRepository):
+class GameRepository(IGameRepository):
     def save(self, game):
         pass
 
