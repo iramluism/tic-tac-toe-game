@@ -1,0 +1,11 @@
+version: ""
+
+services:
+  web: 
+    build:
+      context: ./../
+      dockerfile: ./deployments/Dockerfile
+    ports: 
+      - '8000:8000'
+    volumes:
+      - ./../:/app
