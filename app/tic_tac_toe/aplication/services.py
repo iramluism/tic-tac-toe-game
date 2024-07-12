@@ -1,5 +1,4 @@
-
-import abc 
+import abc
 
 
 class Service(abc.ABC):

@@ -1,16 +1,15 @@
-from pydantic import BaseModel
 from collections import namedtuple
 
+from pydantic import BaseModel
 
-Position = namedtuple('Position', ['x', 'y'])
+Position = namedtuple("Position", ["x", "y"])
 
 
 class Item(BaseModel):
-    name: str 
+    name: str
 
 
 class Board(BaseModel):
-
     def set_item(self, position: Position, item: Item):
         pass
 
@@ -19,4 +18,3 @@ class Board(BaseModel):
 
     def is_full(self):
         pass
-

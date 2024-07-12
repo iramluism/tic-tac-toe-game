@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field
 from uuid import uuid4
+
+from pydantic import BaseModel
+from pydantic import Field
 from tic_tac_toe.domain.object_values import Board
 
 
