@@ -1,4 +1,7 @@
+from typing import Optional
+
 from tic_tac_toe.domain.entities import Game
+from tic_tac_toe.domain.entities import Player
 
 
 class IGameRepository:
@@ -10,8 +13,8 @@ class IGameRepository:
 
 
 class IPlayerRepository:
-    def save(self, player):
+    def save(self, player) -> Player:
         raise NotImplementedError()
 
-    def get(self, player_id: str):
+    def get(self, player_id: str) -> Optional[Player]:
         raise NotImplementedError()

@@ -10,6 +10,7 @@ class Entity(BaseModel):
 
 
 class Player(Entity):
+    user_id: str
     name: str
 
 
