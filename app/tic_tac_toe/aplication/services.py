@@ -10,3 +10,8 @@ class Service(abc.ABC):
 class CreateGameService(Service):
     def execute(self, *args, **kwargs):
         pass
+
+
+class CreatePlayerService(Service):
+    def execute(self, name: str):
+        pass
