@@ -1,21 +1,21 @@
 from typing import Optional
 
+from django.contrib.auth.models import User
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.repositories import IPlayerRepository
-from tic_tac_toe.infrastructure.repositories.models import Player as DBPlayer
 
 
 class PlayerRepository(IPlayerRepository):
     def save(self, player: Player) -> Player:
-        DBPlayer.objects.create(
-            user_id=player.user_id,
-            name=player.name,
+        User.objects.create_user(
+            username=player.name,
+            password=player.password,
         )
 
         return player
 
     def get_by_name(self, name: str) -> Optional[Player]:
-        db_player = DBPlayer.objects.get(name=name)
+        db_player = User.objects.get(username=name)
 
         if not db_player:
             return None
