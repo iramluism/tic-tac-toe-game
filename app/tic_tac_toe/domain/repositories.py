@@ -1,6 +1,7 @@
 from typing import Optional
 
 from tic_tac_toe.domain.entities import Game
+from tic_tac_toe.domain.entities import GameSession
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.object_values import UserSession
 
@@ -10,6 +11,12 @@ class IGameRepository:
         raise NotImplementedError()
 
     def get(self, game_id: str) -> Game:
+        raise NotImplementedError()
+
+    def save_session(self, game_session: GameSession) -> GameSession:
+        raise NotImplementedError()
+
+    def get_session(self, session_id) -> GameSession:
         raise NotImplementedError()
 
 

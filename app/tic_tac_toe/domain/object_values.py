@@ -1,24 +1,19 @@
 from collections import namedtuple
 from typing import NewType
 
-from pydantic import BaseModel
-
 UserSession = NewType("UserSession", str)
 
 
 Position = namedtuple("Position", ["x", "y"])
 
+Item = NewType("Item", str)
 
-class Item(BaseModel):
-    name: str
+NOUGHT = "O"
+CROSS = "X"
 
 
-class Board(BaseModel):
-    def set_item(self, position: Position, item: Item):
-        pass
-
-    def get_item(self, position: Position):
-        pass
-
-    def is_full(self):
-        pass
+EmptyBoard3x3 = [
+    [None, None, None],
+    [None, None, None],
+    [None, None, None],
+]

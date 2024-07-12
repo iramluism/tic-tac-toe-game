@@ -2,8 +2,11 @@ import abc
 
 import inject
 from tic_tac_toe.domain import exceptions
+from tic_tac_toe.domain.entities import GameSession
 from tic_tac_toe.domain.entities import Player
+from tic_tac_toe.domain.entities import TicTacToeGame
 from tic_tac_toe.domain.object_values import UserSession
+from tic_tac_toe.domain.repositories import IGameRepository
 from tic_tac_toe.domain.repositories import IPlayerRepository
 
 
@@ -44,3 +47,18 @@ class AuthenticatePlayer(Service):
         user_session = self._player_repository.get_user_session(player)
 
         return user_session
+
+
+class StartTicTacToeGameService(Service):
+    _game_repository = inject.instance(IGameRepository)
+
+    def execute(self, player_name) -> GameSession:
+        game = TicTacToeGame()
+
+        player = Player(name=player_name)
+
+        game_session = GameSession(game=game, players=[player])
+
+        self._game_repository.save_session(game_session)
+
+        return game_session
