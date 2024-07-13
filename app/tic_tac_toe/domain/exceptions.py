@@ -8,9 +8,10 @@ class ErrorCode(Enum):
     INVALID_USER_SESSION = 100403
     INVALID_GAME_SESSION = 101403
     INVALID_ACTION = 100400
-    ACTION_NOT_ALLOWED = 100403
-    PLAYER_ALREADY_CONNECTED = 100409
-    POSITION_OUT_OF_BOARD = 100400
+    ACTION_NOT_ALLOWED = 102403
+    POSITION_ALREADY_MARKED = 104409
+    PLAYER_ALREADY_CONNECTED = 101409
+    POSITION_OUT_OF_BOARD = 101400
 
 
 @dataclass
@@ -64,3 +65,8 @@ class PlayerAlreadyConnectedException(DomainException):
 @dataclass
 class PositionOutOfBoardException(DomainException):
     error_code: ErrorCode = ErrorCode.POSITION_OUT_OF_BOARD
+
+
+@dataclass
+class PositionAlreadyMarkedException(DomainException):
+    error_code: ErrorCode = ErrorCode.POSITION_ALREADY_MARKED

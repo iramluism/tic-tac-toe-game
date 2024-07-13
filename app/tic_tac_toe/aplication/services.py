@@ -110,7 +110,7 @@ class MarkItemOnBoardService(Service):
         game = turn.game_session.game
 
         if game.board.points[turn.position.x][turn.position.y] is not None:
-            raise exceptions.ActionNotAllowedException()
+            raise exceptions.PositionAlreadyMarkedException()
 
         game.board.points[turn.position.x][turn.position.y] = turn.item
 
