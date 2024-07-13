@@ -25,6 +25,7 @@ class PlayerAction(Enum):
     MARK = "mark"
     QUIT = "quit"
     ADMIT_PLAYER = "admit_player"
+    RESUME = "resume"
 
 
 class GameSessionStatus(Enum):

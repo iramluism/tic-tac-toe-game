@@ -92,6 +92,11 @@ class ConnectToGameService(Service):
         return turn
 
 
+class ResumeGameService(Service):
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        return turn
+
+
 class AdmitPlayerService(Service):
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
         if not turn.player.is_host:
@@ -125,6 +130,7 @@ class PlayGameService(Service):
     _admit_player_srv = inject.instance(AdmitPlayerService)
     _resolve_game_session_status_srv = inject.instance(ResolveGameSessionStatusService)
     _mark_item_on_board_srv = inject.instance(MarkItemOnBoardService)
+    _resume_game_srv = inject.instance(ResumeGameService)
 
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
         game_session = self._game_repository.get_session(turn.game_session_id)
@@ -164,6 +170,14 @@ class PlayGameService(Service):
                 PlayerAction.MARK,
                 GameSessionStatus.RUNNING,
             ): self._mark_item_on_board_srv,
+            (
+                PlayerAction.RESUME,
+                GameSessionStatus.RUNNING,
+            ): self._resume_game_srv,
+            (
+                PlayerAction.RESUME,
+                GameSessionStatus.OVER,
+            ): self._resume_game_srv,
         }
 
         return _service_by_action_map.get((action, status))
@@ -183,5 +197,7 @@ class PlayGameService(Service):
         max_x_pos = board_size[0] - 1
         max_y_pos = board_size[1] - 1
 
-        if turn.position.x > max_x_pos or turn.position.y > max_y_pos:
+        if turn.position and (
+            turn.position.x > max_x_pos or turn.position.y > max_y_pos
+        ):
             raise exceptions.PositionOutOfBoardException()
