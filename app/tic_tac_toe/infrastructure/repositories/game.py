@@ -7,7 +7,7 @@ from tic_tac_toe.domain.entities import Game
 from tic_tac_toe.domain.entities import GameSession
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.repositories import IGameRepository
-from tic_tac_toe.domain.repositories import models
+from tic_tac_toe.infrastructure.repositories import models
 
 
 class GameRepository(IGameRepository):
