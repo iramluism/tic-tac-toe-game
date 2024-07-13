@@ -1,4 +1,5 @@
 import json
+from urllib.parse import parse_qs
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -7,6 +8,7 @@ from django.views import View
 import inject
 from tic_tac_toe.aplication import services
 from tic_tac_toe.domain.exceptions import DomainException
+from tic_tac_toe.presentation.rest.serializers import GameSessionSerializer
 from tic_tac_toe.presentation.rest.serializers import GameSessionTurnSerializer
 
 
@@ -17,12 +19,16 @@ class ConnectGameView(WebsocketConsumer):
 
     def _validate_player(self, request):
         headers = request.get("headers", [])
+        query_string = parse_qs(self.scope["query_string"].decode("utf-8"))
 
         user_session = None
         for header, value in headers:
             if header.decode("utf-8") == "authorization":
                 user_session = value.decode("utf-8")
                 break
+
+        if not user_session and "user_session" in query_string:
+            user_session = query_string["user_session"][0]
 
         player = self._validate_user_session_srv.execute(user_session)
         return player
@@ -88,3 +94,18 @@ class StartGameView(View):
         game_session = self._start_game_srv.execute(player_name=player.name)
 
         return JsonResponse(data={"game_session_id": game_session.id}, status=202)
+
+
+class ListGameSessionsView(View):
+    _validate_user_session_srv = inject.instance(services.ValidateUserSessionService)
+    _list_open_game_sessions_srv = inject.instance(services.ListOpenGameSessionsService)
+    _game_session_serializer = inject.instance(GameSessionSerializer)
+
+    def get(self, request):
+        user_session = request.headers.get("Authorization")
+        self._validate_user_session_srv.execute(user_session)
+
+        game_sessions = self._list_open_game_sessions_srv.execute()
+
+        data = self._game_session_serializer.to_list(game_sessions)
+        return JsonResponse(data={"game_sessions": data}, status=200)

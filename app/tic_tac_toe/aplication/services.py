@@ -233,3 +233,10 @@ class PlayGameService(Service):
             turn.position.x > max_x_pos or turn.position.y > max_y_pos
         ):
             raise exceptions.PositionOutOfBoardException()
+
+
+class ListOpenGameSessionsService(Service):
+    _game_repository = inject.instance(IGameRepository)
+
+    def execute(self) -> list:
+        return self._game_repository.list_open_sessions(limit=5)

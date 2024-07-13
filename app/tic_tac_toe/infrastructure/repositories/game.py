@@ -6,6 +6,7 @@ from tic_tac_toe.domain.entities import Board
 from tic_tac_toe.domain.entities import Game
 from tic_tac_toe.domain.entities import GameSession
 from tic_tac_toe.domain.entities import Player
+from tic_tac_toe.domain.object_values import GameSessionStatus
 from tic_tac_toe.domain.repositories import IGameRepository
 from tic_tac_toe.infrastructure.repositories import models
 
@@ -16,6 +17,52 @@ class GameRepository(IGameRepository):
 
     def get(self, game_id):
         pass
+
+    def list_open_sessions(self, limit: Optional[int] = None):
+        db_game_sessions = models.GameSession.objects.filter(
+            status=GameSessionStatus.WAITING_FOR_PLAYER.value
+        )
+
+        if limit:
+            db_game_sessions = db_game_sessions[:limit]
+
+        game_sessions = []
+        for db_game_session in db_game_sessions:
+            db_players = models.GameSessionPlayer.objects.filter(
+                Q(game_session_id=db_game_session.id)
+            )
+
+            players = []
+            for db_player in db_players:
+                player = Player(
+                    id=db_player.id,
+                    name=db_player.name,
+                    is_host=db_player.is_host,
+                    item=db_player.item,
+                )
+                players.append(player)
+
+            if not players:
+                continue
+
+            game_session = GameSession(
+                id=db_game_session.id,
+                game=Game(
+                    name=db_game_session.game_name,
+                    board=Board(
+                        points=json.loads(db_game_session.board_points),
+                    ),
+                ),
+                players=players,
+                winner=db_game_session.winner,
+                next_turn=db_game_session.next_turn,
+                status=db_game_session.status,
+                is_over=db_game_session.is_over,
+            )
+
+            game_sessions.append(game_session)
+
+        return game_sessions
 
     def update_session(self, game_session: GameSession) -> GameSession:
         queryset = models.GameSession.objects.filter(id=game_session.id)

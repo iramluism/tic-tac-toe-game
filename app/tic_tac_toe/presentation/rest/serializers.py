@@ -17,6 +17,21 @@ class PlayerSerializer:
         return entity.model_dump(exclude={"password", "id"})
 
 
+class GameSessionSerializer:
+    def to_list(self, game_sessions):
+        game_sessions_list = []
+
+        for game_session in game_sessions:
+            game_sessions_list.append(
+                {
+                    "id": game_session.id,
+                    "host": game_session.players[0].name,
+                }
+            )
+
+        return game_sessions_list
+
+
 class GameSessionTurnSerializer:
     def to_entity(
         self, scope, player: Player, text: Optional[dict] = None

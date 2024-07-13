@@ -1,3 +1,4 @@
+from typing import List
 from typing import Optional
 
 from tic_tac_toe.domain.entities import Game
@@ -20,6 +21,9 @@ class IGameRepository:
         raise NotImplementedError()
 
     def get_session(self, session_id) -> GameSession:
+        raise NotImplementedError()
+
+    def list_open_sessions(self, limit: Optional[int] = None) -> List[GameSession]:
         raise NotImplementedError()
 
 

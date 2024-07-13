@@ -22,7 +22,26 @@ const startGame = () => {
     })
     .then((result) => {
         localStorage.setItem("gameSessionId", result.game_session_id)
-        // window.location.href = "/game"
+        window.location.href = "/web/game"
     })
     .catch((error) => console.error(error));
+}
+
+
+const startGameChannel = () => {
+    const userSession = localStorage.getItem("userSession");
+    const gameSessionId = localStorage.getItem("gameSessionId");
+
+    const url = `ws://${window.location.host}/ws/game/${gameSessionId}/?user_session=${userSession}`;
+    const chatSocket = new WebSocket(url);
+
+    chatSocket.onmessage = function(e) {
+        console.log(e);
+        const data = JSON.parse(e.data);
+        document.querySelector('#chat-log').value += (data.message + '\n');
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
 }
