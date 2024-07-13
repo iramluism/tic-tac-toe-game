@@ -28,7 +28,17 @@ class GameRepository(IGameRepository):
             status=game_session.status.value,
             winner=game_session.winner,
             is_over=game_session.is_over,
+            next_turn=game_session.next_turn,
         )
+
+        db_game_session = queryset.first()
+        for player in game_session.players:
+            models.GameSessionPlayer.objects.update_or_create(
+                id=player.id,
+                game_session_id=db_game_session,
+                name=player.name,
+                is_host=player.is_host,
+            )
 
         return game_session
 
@@ -42,11 +52,13 @@ class GameRepository(IGameRepository):
             winner=game_session.winner,
             status=game_session.status.value,
             is_over=game_session.is_over,
+            next_turn=game_session.next_turn,
         )
 
         db_players = []
         for player in game_session.players:
             db_player = models.GameSessionPlayer.objects.create(
+                id=player.id,
                 game_session_id=db_game_session,
                 name=player.name,
                 is_host=player.is_host,
@@ -68,7 +80,9 @@ class GameRepository(IGameRepository):
 
         players = []
         for db_player in db_players:
-            player = Player(name=db_player.name, is_host=db_player.is_host)
+            player = Player(
+                id=db_player.id, name=db_player.name, is_host=db_player.is_host
+            )
             players.append(player)
 
         game_session = GameSession(
@@ -81,6 +95,7 @@ class GameRepository(IGameRepository):
             ),
             players=players,
             winner=db_game_session.winner,
+            next_turn=db_game_session.next_turn,
             status=db_game_session.status,
             is_over=db_game_session.is_over,
         )

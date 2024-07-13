@@ -17,6 +17,14 @@ class GameSession(models.Model):
 
 
 class GameSessionPlayer(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
     game_session_id = models.ForeignKey("GameSession", on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     is_host = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["id", "game_session_id"], name="game_session_player_id"
+            )
+        ]

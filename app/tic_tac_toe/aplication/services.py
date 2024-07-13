@@ -81,7 +81,8 @@ class StartTicTacToeGameService(Service):
 
 class ResolveGameSessionStatusService(Service):
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
-        turn.game_session.status = turn.change_to_status
+        if turn.change_to_status:
+            turn.game_session.status = turn.change_to_status
         return turn
 
 
@@ -97,6 +98,24 @@ class AdmitPlayerService(Service):
             raise exceptions.ActionNotAllowedException()
 
         turn.change_to_status = GameSessionStatus.RUNNING
+
+        player = Player(name=turn.player_name)
+        turn.game_session.add_player(player)
+
+        return turn
+
+
+class MarkItemOnBoardService(Service):
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        game = turn.game_session.game
+
+        if game.board.points[turn.position.x][turn.position.y] is not None:
+            raise exceptions.ActionNotAllowedException()
+
+        game.board.points[turn.position.x][turn.position.y] = turn.item
+
+        turn.game_session.set_next_turn()
+
         return turn
 
 
@@ -105,6 +124,7 @@ class PlayGameService(Service):
     _connect_to_game_srv = inject.instance(ConnectToGameService)
     _admit_player_srv = inject.instance(AdmitPlayerService)
     _resolve_game_session_status_srv = inject.instance(ResolveGameSessionStatusService)
+    _mark_item_on_board_srv = inject.instance(MarkItemOnBoardService)
 
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
         game_session = self._game_repository.get_session(turn.game_session_id)
@@ -115,6 +135,7 @@ class PlayGameService(Service):
         turn.game_session = game_session
 
         self._validate_player_turn(turn)
+        self._validate_position(turn)
 
         action_service = self._get_service_by_action(turn.action, game_session.status)
 
@@ -139,11 +160,28 @@ class PlayGameService(Service):
                 PlayerAction.ADMIT_PLAYER,
                 GameSessionStatus.WAITING_FOR_HOST_APPROVAL,
             ): self._admit_player_srv,
+            (
+                PlayerAction.MARK,
+                GameSessionStatus.RUNNING,
+            ): self._mark_item_on_board_srv,
         }
 
         return _service_by_action_map.get((action, status))
 
     def _validate_player_turn(self, turn: GameSessionTurn):
+        next_turn_player = turn.game_session.next_turn_player
+
+        if turn.player.name != next_turn_player.name:
+            raise exceptions.ActionNotAllowedException()
+
         for player in turn.game_session.players:
             if player.name == turn.player.name:
-                player.is_host = turn.player.is_host
+                turn.player.is_host = player.is_host
+
+    def _validate_position(self, turn):
+        board_size = turn.game_session.game.board.size
+        max_x_pos = board_size[0] - 1
+        max_y_pos = board_size[1] - 1
+
+        if turn.position.x > max_x_pos or turn.position.y > max_y_pos:
+            raise exceptions.PositionOutOfBoardException()

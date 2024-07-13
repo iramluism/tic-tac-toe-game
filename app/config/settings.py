@@ -143,4 +143,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # TicTocToe Game
 
-USER_SESSION_TIMEOUT = 3600  # seconds
+USER_SESSION_TIMEOUT = 360000  # seconds

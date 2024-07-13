@@ -47,14 +47,13 @@ class ConnectGameView(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        action = text_data_json["action"]
-
         try:
             player = self._validate_player(self.scope)
 
             turn = self._game_session_turn_serializer.to_entity(
-                self.scope, player, action
+                self.scope,
+                player,
+                json.loads(text_data),
             )
 
             next_turn = self._play_game_srv.execute(turn)
