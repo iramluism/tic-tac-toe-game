@@ -93,6 +93,9 @@ class ConnectToGameService(Service):
 
 class AdmitPlayerService(Service):
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        if not turn.player.is_host:
+            raise exceptions.ActionNotAllowedException()
+
         turn.change_to_status = GameSessionStatus.RUNNING
         return turn
 

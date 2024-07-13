@@ -8,6 +8,7 @@ class ErrorCode(Enum):
     INVALID_USER_SESSION = 100403
     INVALID_GAME_SESSION = 101403
     INVALID_ACTION = 100400
+    ACTION_NOT_ALLOWED = 100403
 
 
 @dataclass
@@ -46,3 +47,8 @@ class InvalidGameSessionException(DomainException):
 @dataclass
 class InvalidActionException(DomainException):
     error_code: ErrorCode = ErrorCode.INVALID_ACTION
+
+
+@dataclass
+class ActionNotAllowedException(DomainException):
+    error_code: ErrorCode = ErrorCode.ACTION_NOT_ALLOWED
