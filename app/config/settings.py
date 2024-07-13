@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "tic_tac_toe",
-    "tic_tac_toe_web",
     "rest_framework",
 ]
 
@@ -72,7 +71,9 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "tic_tac_toe/presentation/web" / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -137,7 +138,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "tic_tac_toe_web" / "static",
+    BASE_DIR / "tic_tac_toe/presentation/web" / "static",
 ]
 
 # Default primary key field type

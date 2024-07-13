@@ -8,6 +8,7 @@ repos:
       entry: autoflake
       files: app|tests
       language: python
+      exclude: (static|templates)
       args: [--remove-all-unused-imports, --in-place]
       
     - id: isort
@@ -16,6 +17,7 @@ repos:
       entry: isort
       files: app|tests
       stages: [commit]
+      exclude: (static|templates)
       args: [--cr setup.cfg]
       
     - id: black
@@ -23,6 +25,7 @@ repos:
       entry: black
       files: app|tests
       language: python
+      exclude: (static|templates)
       exclude_types:
         - "json"
 
@@ -31,4 +34,5 @@ repos:
       stages: [commit]
       files: app|tests
       language: system
+      exclude: (static|templates)
       entry: flake8 --config setup.cfg
