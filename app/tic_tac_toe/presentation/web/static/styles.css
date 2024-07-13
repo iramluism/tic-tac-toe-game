@@ -56,3 +56,69 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+
+
+/* Play button styling */
+.play-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.play-button:hover {
+    background-color: #45a049;
+}
+
+/* User list container styling */
+.user-list-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Increased width */
+    position: relative; /* For absolute positioning of the play button */
+    text-align: center;
+}
+
+/* User list styling */
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+/* Connect button styling */
+.connect-button {
+    padding: 5px 10px;
+    margin:  0 50px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.connect-button:hover {
+    background-color: #0056b3;
+}
+
+.game-head {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
