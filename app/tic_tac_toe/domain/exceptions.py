@@ -6,6 +6,7 @@ class ErrorCode(Enum):
     PLAYER_ALREADY_EXISTS = 100409
     PLAYER_UNAUTHORIZED = 100401
     INVALID_USER_SESSION = 100403
+    INVALID_GAME_SESSION = 101403
 
 
 @dataclass
@@ -34,3 +35,8 @@ class PlayerUnAuthorizedException(DomainException):
 @dataclass
 class InvalidUserSessionException(DomainException):
     error_code: ErrorCode = ErrorCode.INVALID_USER_SESSION
+
+
+@dataclass
+class InvalidGameSessionException(DomainException):
+    error_code: ErrorCode = ErrorCode.INVALID_GAME_SESSION

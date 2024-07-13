@@ -1,4 +1,5 @@
 from collections import namedtuple
+from enum import Enum
 from typing import NewType
 
 UserSession = NewType("UserSession", str)
@@ -17,3 +18,17 @@ EmptyBoard3x3 = [
     [None, None, None],
     [None, None, None],
 ]
+
+
+class PlayerAction(Enum):
+    CONNECT = "connect"
+    MARK = "mark"
+    QUIT = "quit"
+    ACCEPT = "accept"
+
+
+class GameSessionStatus(Enum):
+    WAITING_FOR_PLAYER = "WAITING_FOR_PLAYER"
+    WAITING_FOR_HOST_APPROVAL = "WAITING_FOR_HOST_APPROVAL"
+    RUNNING = "RUNNING"
+    OVER = "OVER"

@@ -3,8 +3,10 @@ import abc
 import inject
 from tic_tac_toe.domain import exceptions
 from tic_tac_toe.domain.entities import GameSession
+from tic_tac_toe.domain.entities import GameSessionTurn
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.entities import TicTacToeGame
+from tic_tac_toe.domain.object_values import GameSessionStatus
 from tic_tac_toe.domain.object_values import UserSession
 from tic_tac_toe.domain.repositories import IGameRepository
 from tic_tac_toe.domain.repositories import IPlayerRepository
@@ -74,3 +76,20 @@ class StartTicTacToeGameService(Service):
         self._game_repository.save_session(game_session)
 
         return game_session
+
+
+class PlayGameService(Service):
+    _game_repository = inject.instance(IGameRepository)
+
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        game_session = self._game_repository.get_session(turn.game_session_id)
+
+        if not game_session:
+            raise exceptions.InvalidGameSessionException()
+
+        turn.game_session = game_session
+
+        if game_session.status == GameSessionStatus.WAITING_FOR_PLAYER:
+            turn.change_to_status = GameSessionStatus.WAITING_FOR_HOST_APPROVAL
+
+        return turn

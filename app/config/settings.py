@@ -25,15 +25,25 @@ SECRET_KEY = "django-insecure-t!3_pz8lt3emc00mjentc0%ncw&o&212kz7w($bgs%-_jyev$g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost:8000"]
 
 
 # Application definition
 
 ASGI_APPLICATION = "tic_tac_toe.presentation.rest.asgi.application"
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
 INSTALLED_APPS = [
     "daphne",
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

@@ -7,7 +7,9 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import SecretStr
 from pydantic import validator
+from tic_tac_toe.domain.object_values import GameSessionStatus
 from tic_tac_toe.domain.object_values import Item
+from tic_tac_toe.domain.object_values import PlayerAction
 from tic_tac_toe.domain.object_values import Position
 
 
@@ -27,7 +29,7 @@ class Board(BaseModel):
 
     @validator("points", pre=False)
     def validate_points(cls, points, values):
-        if not points:
+        if not points and values.get("size"):
             h, w = values.size
             values.points = [[None] * w] * h
 
@@ -35,9 +37,10 @@ class Board(BaseModel):
 
     @validator("size", pre=False)
     def validate_size(cls, size, values):
-        if not size and values.points:
-            h = len(values.points)
-            w = len(values.points[0])
+        points = values.get("points")
+        if not size and points:
+            h = len(points)
+            w = len(points[0])
             values.size = (h, w)
 
     def set_item(self, position: Position, item: Item):
@@ -57,6 +60,7 @@ class Game(Entity):
 
 class GameSession(Entity):
     game: Game
+    status: GameSessionStatus = GameSessionStatus.WAITING_FOR_PLAYER
     players: List[Player]
     next_turn: int = 0
     winner: Optional[Player] = None
@@ -66,3 +70,12 @@ class GameSession(Entity):
 class TicTacToeGame(Game):
     name: str = "TicTacToe"
     board: Board = Field(default_factory=lambda: Board(size=(3, 3)))
+
+
+class GameSessionTurn(Entity):
+    game_session_id: str
+    game_session: Optional[GameSession] = None
+    player: Player
+    action: PlayerAction
+    change_to_status: Optional[GameSessionStatus] = None
+    change_status_reason: Optional[str] = None

@@ -1,7 +1,7 @@
 version: ""
 
 services:
-  web: 
+  api: 
     build:
       context: ./../
       dockerfile: ./deployments/Dockerfile
@@ -9,3 +9,8 @@ services:
       - '8000:8000'
     volumes:
       - ./../app:/app
+
+  redis_channels:
+    image: redis
+    ports:
+      - 6379:6379
