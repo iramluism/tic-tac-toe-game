@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "tic_tac_toe",
+    "tic_tac_toe_web",
     "rest_framework",
 ]
 

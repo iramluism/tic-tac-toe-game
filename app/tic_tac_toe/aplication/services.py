@@ -99,7 +99,7 @@ class ResolveGameSessionStatusService(Service):
             turn.game_session.game.board
         )
         if completed_vector_item:
-            turn.game_session.winner = turn.player
+            turn.game_session.winner = turn.player.name
             turn.change_to_status = GameSessionStatus.OVER
             turn.change_status_reason = f"{turn.player.name} wins!"
 

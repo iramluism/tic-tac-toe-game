@@ -26,7 +26,7 @@ class GameRepository(IGameRepository):
         queryset.update(
             board_points=json.dumps(game_session.game.board.points),
             status=game_session.status.value,
-            winner=game_session.winner.name,
+            winner=game_session.winner,
             is_over=game_session.is_over,
             next_turn=game_session.next_turn,
         )
@@ -99,7 +99,7 @@ class GameRepository(IGameRepository):
                 ),
             ),
             players=players,
-            winner=Player(name=db_game_session.winner),
+            winner=db_game_session.winner,
             next_turn=db_game_session.next_turn,
             status=db_game_session.status,
             is_over=db_game_session.is_over,
