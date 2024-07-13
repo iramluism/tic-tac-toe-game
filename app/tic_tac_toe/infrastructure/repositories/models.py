@@ -1,5 +1,4 @@
 from django.db import models
-from tic_tac_toe.domain.object_values import GameSessionStatus
 
 
 class Player(models.Model):
@@ -10,9 +9,7 @@ class Player(models.Model):
 class GameSession(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     game_name = models.CharField(max_length=20, default="")
-    status = models.CharField(
-        max_length=50, default=GameSessionStatus.WAITING_FOR_PLAYER.value
-    )
+    status = models.CharField(max_length=50)
     board_points = models.CharField(max_length=200)
     winner = models.CharField(null=True, default=None, max_length=20)
     next_turn = models.IntegerField(default=0)
@@ -22,3 +19,4 @@ class GameSession(models.Model):
 class GameSessionPlayer(models.Model):
     game_session_id = models.ForeignKey("GameSession", on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
+    is_host = models.BooleanField(default=False)

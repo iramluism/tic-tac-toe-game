@@ -33,7 +33,7 @@ class Board(BaseModel):
             h, w = values.size
             values.points = [[None] * w] * h
 
-        return values
+        return points
 
     @validator("size", pre=False)
     def validate_size(cls, size, values):
@@ -42,6 +42,8 @@ class Board(BaseModel):
             h = len(points)
             w = len(points[0])
             values.size = (h, w)
+
+        return size
 
     def set_item(self, position: Position, item: Item):
         self.points[position.y][position.x] = item

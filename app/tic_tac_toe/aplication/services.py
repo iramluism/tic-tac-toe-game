@@ -7,6 +7,7 @@ from tic_tac_toe.domain.entities import GameSessionTurn
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.entities import TicTacToeGame
 from tic_tac_toe.domain.object_values import GameSessionStatus
+from tic_tac_toe.domain.object_values import PlayerAction
 from tic_tac_toe.domain.object_values import UserSession
 from tic_tac_toe.domain.repositories import IGameRepository
 from tic_tac_toe.domain.repositories import IPlayerRepository
@@ -69,7 +70,7 @@ class StartTicTacToeGameService(Service):
     def execute(self, player_name) -> GameSession:
         game = TicTacToeGame()
 
-        player = Player(name=player_name)
+        player = Player(name=player_name, is_host=True)
 
         game_session = GameSession(game=game, players=[player])
 
@@ -78,8 +79,29 @@ class StartTicTacToeGameService(Service):
         return game_session
 
 
+class ResolveGameSessionStatusService(Service):
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        turn.game_session.status = turn.change_to_status
+        return turn
+
+
+class ConnectToGameService(Service):
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        turn.change_to_status = GameSessionStatus.WAITING_FOR_HOST_APPROVAL
+        return turn
+
+
+class AdmitPlayerService(Service):
+    def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        turn.change_to_status = GameSessionStatus.RUNNING
+        return turn
+
+
 class PlayGameService(Service):
     _game_repository = inject.instance(IGameRepository)
+    _connect_to_game_srv = inject.instance(ConnectToGameService)
+    _admit_player_srv = inject.instance(AdmitPlayerService)
+    _resolve_game_session_status_srv = inject.instance(ResolveGameSessionStatusService)
 
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
         game_session = self._game_repository.get_session(turn.game_session_id)
@@ -89,7 +111,36 @@ class PlayGameService(Service):
 
         turn.game_session = game_session
 
-        if game_session.status == GameSessionStatus.WAITING_FOR_PLAYER:
-            turn.change_to_status = GameSessionStatus.WAITING_FOR_HOST_APPROVAL
+        self._validate_player_turn(turn)
 
-        return turn
+        action_service = self._get_service_by_action(turn.action, game_session.status)
+
+        if not action_service:
+            raise exceptions.InvalidActionException()
+
+        action_turn = action_service.execute(turn)
+
+        next_turn = self._resolve_game_session_status_srv.execute(action_turn)
+
+        self._game_repository.update_session(next_turn.game_session)
+
+        return next_turn
+
+    def _get_service_by_action(self, action: PlayerAction, status: GameSessionStatus):
+        _service_by_action_map = {
+            (
+                PlayerAction.CONNECT,
+                GameSessionStatus.WAITING_FOR_PLAYER,
+            ): self._connect_to_game_srv,
+            (
+                PlayerAction.ADMIT_PLAYER,
+                GameSessionStatus.WAITING_FOR_HOST_APPROVAL,
+            ): self._admit_player_srv,
+        }
+
+        return _service_by_action_map.get((action, status))
+
+    def _validate_player_turn(self, turn: GameSessionTurn):
+        for player in turn.game_session.players:
+            if player.name == turn.player.name:
+                player.is_host = turn.player.is_host

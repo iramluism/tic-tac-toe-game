@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.views import View
 import inject
 from tic_tac_toe.aplication import services
+from tic_tac_toe.domain.exceptions import DomainException
 from tic_tac_toe.presentation.rest.serializers import GameSessionTurnSerializer
 
 
@@ -49,13 +50,18 @@ class ConnectGameView(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         action = text_data_json["action"]
 
-        player = self._validate_player(self.scope)
+        try:
+            player = self._validate_player(self.scope)
 
-        turn = self._game_session_turn_serializer.to_entity(self.scope, player, action)
+            turn = self._game_session_turn_serializer.to_entity(
+                self.scope, player, action
+            )
 
-        next_turn = self._play_game_srv.execute(turn)
+            next_turn = self._play_game_srv.execute(turn)
 
-        message = self._game_session_turn_serializer.to_dict(next_turn)
+            message = self._game_session_turn_serializer.to_dict(next_turn)
+        except DomainException as e:
+            message = {"error": {"message": e.message, "code": e.code}}
 
         payload = {
             "type": "chat.message",

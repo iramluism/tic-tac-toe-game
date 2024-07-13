@@ -16,6 +16,9 @@ class IGameRepository:
     def save_session(self, game_session: GameSession) -> GameSession:
         raise NotImplementedError()
 
+    def update_session(self, game_session: GameSession) -> GameSession:
+        raise NotImplementedError()
+
     def get_session(self, session_id) -> GameSession:
         raise NotImplementedError()
 

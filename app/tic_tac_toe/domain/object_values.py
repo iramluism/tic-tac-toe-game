@@ -24,7 +24,7 @@ class PlayerAction(Enum):
     CONNECT = "connect"
     MARK = "mark"
     QUIT = "quit"
-    ACCEPT = "accept"
+    ADMIT_PLAYER = "admit_player"
 
 
 class GameSessionStatus(Enum):
