@@ -12,6 +12,7 @@ class ErrorCode(Enum):
     POSITION_ALREADY_MARKED = 104409
     PLAYER_ALREADY_CONNECTED = 101409
     POSITION_OUT_OF_BOARD = 101400
+    INVALID_ITEM = 102400
 
 
 @dataclass
@@ -70,3 +71,8 @@ class PositionOutOfBoardException(DomainException):
 @dataclass
 class PositionAlreadyMarkedException(DomainException):
     error_code: ErrorCode = ErrorCode.POSITION_ALREADY_MARKED
+
+
+@dataclass
+class InvalidPlayerItemException(DomainException):
+    error_code: ErrorCode = ErrorCode.INVALID_ITEM

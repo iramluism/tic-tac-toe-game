@@ -22,6 +22,7 @@ class Player(Entity):
     name: str
     password: Optional[SecretStr] = None
     is_host: bool = False
+    item: Optional[Item] = None
 
 
 class Board(BaseModel):
@@ -55,6 +56,18 @@ class Board(BaseModel):
 
     def is_full(self):
         return all(all(x_axis) for x_axis in self.points)
+
+    def get_vector(self):
+        h, w = self.size
+
+        for y in range(h):
+            yield self.points[y]
+
+        for x in range(w):
+            yield [self.points[y][x] for y in range(h)]
+
+        yield [self.points[i][i] for i in range(h)]
+        yield [self.points[i][h - i - 1] for i in range(h)]
 
 
 class Game(Entity):

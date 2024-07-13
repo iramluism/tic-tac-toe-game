@@ -2,11 +2,14 @@ import abc
 
 import inject
 from tic_tac_toe.domain import exceptions
+from tic_tac_toe.domain.entities import Board
 from tic_tac_toe.domain.entities import GameSession
 from tic_tac_toe.domain.entities import GameSessionTurn
 from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.entities import TicTacToeGame
+from tic_tac_toe.domain.object_values import CROSS
 from tic_tac_toe.domain.object_values import GameSessionStatus
+from tic_tac_toe.domain.object_values import NOUGHT
 from tic_tac_toe.domain.object_values import PlayerAction
 from tic_tac_toe.domain.object_values import UserSession
 from tic_tac_toe.domain.repositories import IGameRepository
@@ -70,7 +73,7 @@ class StartTicTacToeGameService(Service):
     def execute(self, player_name) -> GameSession:
         game = TicTacToeGame()
 
-        player = Player(name=player_name, is_host=True)
+        player = Player(name=player_name, is_host=True, item=CROSS)
 
         game_session = GameSession(game=game, players=[player])
 
@@ -79,8 +82,31 @@ class StartTicTacToeGameService(Service):
         return game_session
 
 
+class CheckGameSessionBoardService(Service):
+    def execute(self, board: Board):
+        for vector in board.get_vector():
+            if all(item == vector[0] for item in vector):
+                return vector[0]
+
+        return False
+
+
 class ResolveGameSessionStatusService(Service):
+    _check_game_session_board_srv = inject.instance(CheckGameSessionBoardService)
+
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
+        completed_vector_item = self._check_game_session_board_srv.execute(
+            turn.game_session.game.board
+        )
+        if completed_vector_item:
+            turn.game_session.winner = turn.player
+            turn.change_to_status = GameSessionStatus.OVER
+            turn.change_status_reason = f"{turn.player.name} wins!"
+
+        if turn.game_session.game.board.is_full():
+            turn.change_to_status = GameSessionStatus.OVER
+            turn.change_status_reason = "Draw!"
+
         if turn.change_to_status:
             turn.game_session.status = turn.change_to_status
         return turn
@@ -104,7 +130,7 @@ class AdmitPlayerService(Service):
 
         turn.change_to_status = GameSessionStatus.RUNNING
 
-        player = Player(name=turn.player_name)
+        player = Player(name=turn.player_name, item=NOUGHT)
         turn.game_session.add_player(player)
 
         return turn
@@ -185,11 +211,17 @@ class PlayGameService(Service):
     def _validate_player_turn(self, turn: GameSessionTurn):
         next_turn_player = turn.game_session.next_turn_player
 
-        if turn.player.name != next_turn_player.name:
+        if (
+            turn.game_session.status == GameSessionStatus.RUNNING
+            and turn.player.name != next_turn_player.name
+        ):
             raise exceptions.ActionNotAllowedException()
 
         for player in turn.game_session.players:
             if player.name == turn.player.name:
+                if turn.item and player.item != turn.item:
+                    raise exceptions.InvalidPlayerItemException()
+
                 turn.player.is_host = player.is_host
 
     def _validate_position(self, turn):
