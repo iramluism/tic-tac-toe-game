@@ -1,2 +1,4 @@
 pydantic==2.5.3
 django==3.2.25
+channels[daphne]==4.1.0
+pyjwt==2.8.0
