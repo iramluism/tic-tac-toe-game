@@ -74,15 +74,26 @@ button:hover {
     background-color: #45a049;
 }
 
-/* User list container styling */
-.open-sessions-list-container {
+
+.close-button {
+    justify-self: left;
+}
+
+.game-container {
     background: white;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px; /* Increased width */
     position: relative; /* For absolute positioning of the play button */
+
+}
+
+/* User list container styling */
+.open-sessions-list-container {
+    justify-content: center;
     text-align: center;
+    align-items: center
 }
 
 /* User list styling */
@@ -142,8 +153,6 @@ button:hover {
     font-size: 24px;
     cursor: pointer;
     outline: none;
-    display: flex;
-    justify-content: center;
     align-items: center;
     font-size: 36px;
 }
