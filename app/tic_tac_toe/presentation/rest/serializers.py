@@ -22,10 +22,17 @@ class GameSessionSerializer:
         game_sessions_list = []
 
         for game_session in game_sessions:
+            players = []
+            for player in game_session.players:
+                players.append(player.name)
+
             game_sessions_list.append(
                 {
                     "id": game_session.id,
                     "host": game_session.host,
+                    "winner": game_session.winner,
+                    "players": players,
+                    "board": game_session.game.board.points,
                 }
             )
 
