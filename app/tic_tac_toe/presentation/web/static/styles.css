@@ -193,3 +193,10 @@ button:hover {
     color: gray;
     justify-content: left;
 }
+
+
+.header-content {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+}
