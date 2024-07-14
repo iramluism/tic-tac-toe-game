@@ -16,4 +16,5 @@ urlpatterns = [
         views.StartGameSessionView.as_view(),
         name="start-game-session",
     ),
+    path("/history", views.GameSessionHistoryView.as_view(), name="history"),
 ]

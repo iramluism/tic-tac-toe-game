@@ -87,6 +87,30 @@ class GameView(BaseView):
     template_name = "game.html"
 
 
+class GameSessionHistoryView(BaseView):
+    template_name = "history.html"
+
+    _list_game_sessions_srv = inject.instance(services.ListOverPlayerSessionsService)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        player = self.get_player()
+        game_sessions = self._list_game_sessions_srv.execute(player_name=player.name)
+
+        game_sessions_ctx = []
+        for session in game_sessions:
+            game_sessions_ctx.append(
+                {
+                    "id": session.id,
+                    "host": session.host,
+                    "winner": session.winner,
+                    "players": [player.name for player in session.players],
+                    "result_status": "Won" if session.winner == player.name else "Lost",
+                }
+            )
+
+        return {"game_sessions": game_sessions_ctx}
+
+
 def index(request):
     return render(request, "index.html")
 

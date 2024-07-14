@@ -1,0 +1,16 @@
+{% extends "app.html" %}
+{% load static %}
+
+
+{% block content %} 
+
+    <h2>History Games</h2>
+    <ul class="open-sessions-list">
+        {% for session in game_sessions %}
+            <li>
+                {{ forloop.counter }}- {{session.players.0}} vs {{session.players.1}}, ({{session.result_status}})
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
