@@ -111,3 +111,22 @@ class ListGameSessionsView(View):
 
         data = self._game_session_serializer.to_list(game_sessions)
         return JsonResponse(data={"game_sessions": data}, status=200)
+
+
+class ListOverPlayerSessionsView(View):
+    _validate_user_session_srv = inject.instance(services.ValidateUserSessionService)
+    _list_over_player_sessions_srv = inject.instance(
+        services.ListOverPlayerSessionsService
+    )
+    _game_session_serializer = inject.instance(GameSessionSerializer)
+
+    def get(self, request):
+        user_session = request.headers.get("Authorization")
+        player = self._validate_user_session_srv.execute(user_session)
+
+        game_sessions = self._list_over_player_sessions_srv.execute(
+            player_name=player.name
+        )
+
+        data = self._game_session_serializer.to_list(game_sessions)
+        return JsonResponse(data={"game_sessions": data}, status=200)

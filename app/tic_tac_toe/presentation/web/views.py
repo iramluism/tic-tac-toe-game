@@ -40,7 +40,7 @@ class IndexView(BaseView):
             open_session_ctx.append(
                 {
                     "id": session.id,
-                    "host": session.host.name,
+                    "host": session.host,
                 }
             )
 
@@ -58,7 +58,7 @@ class GameSessionView(BaseView):
 
         context = {
             "session_id": game_session.id,
-            "host": game_session.host.name,
+            "host": game_session.host,
         }
 
         return context
@@ -77,7 +77,7 @@ class StartGameSessionView(BaseView):
 
         context = {
             "session_id": game_session.id,
-            "host": game_session.host.name,
+            "host": game_session.host,
         }
 
         return context

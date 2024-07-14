@@ -25,7 +25,7 @@ class GameSessionSerializer:
             game_sessions_list.append(
                 {
                     "id": game_session.id,
-                    "host": game_session.players[0].name,
+                    "host": game_session.host,
                 }
             )
 

@@ -1,4 +1,5 @@
 import abc
+from typing import List
 
 import inject
 from tic_tac_toe.domain import exceptions
@@ -79,15 +80,31 @@ class ValidateUserSessionService(Service):
         return player
 
 
-class StartTicTacToeGameService(Service):
+class ClosePlayerOpenGameSessionService(Service):
     _game_repository = inject.instance(IGameRepository)
 
+    def execute(self, player_name) -> List[GameSession]:
+        open_sessions = self._game_repository.list_open_player_sessions(player_name)
+        for session in open_sessions:
+            self._game_repository.close_session(session)
+
+        return open_sessions
+
+
+class StartTicTacToeGameService(Service):
+    _game_repository = inject.instance(IGameRepository)
+    _close_player_open_game_sessions_srv = inject.instance(
+        ClosePlayerOpenGameSessionService
+    )
+
     def execute(self, player_name) -> GameSession:
+        self._close_player_open_game_sessions_srv.execute(player_name)
+
         game = TicTacToeGame()
 
         player = Player(name=player_name, is_host=True, item=CROSS)
 
-        game_session = GameSession(game=game, players=[player])
+        game_session = GameSession(game=game, players=[player], host=player_name)
 
         self._game_repository.save_session(game_session)
 
@@ -260,7 +277,16 @@ class ListOpenGameSessionsService(Service):
 
         open_sessions_for_player = []
         for session in open_sessions:
-            if session.host.name != player_name:
+            if session.host != player_name:
                 open_sessions_for_player.append(session)
 
         return open_sessions_for_player
+
+
+class ListOverPlayerSessionsService(Service):
+    _game_repository = inject.instance(IGameRepository)
+
+    def execute(self, player_name: str) -> list:
+        sessions = self._game_repository.list_over_player_sessions(player_name)
+
+        return sessions

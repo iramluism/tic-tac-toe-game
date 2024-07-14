@@ -8,6 +8,7 @@ urlpatterns = [
     path("/player/auth", player_views.AuthPlayerView.as_view()),
     path("/games/start", game_views.StartGameView.as_view()),
     path("/games", game_views.ListGameSessionsView.as_view()),
+    path("/games/history", game_views.ListOverPlayerSessionsView.as_view()),
 ]
 
 websocket_urlpatterns = [

@@ -14,6 +14,7 @@ class GameSession(models.Model):
     winner = models.CharField(null=True, default=None, max_length=20)
     next_turn = models.IntegerField(default=0)
     is_over = models.BooleanField(default=False)
+    host = models.CharField(max_length=20)
 
 
 class GameSessionPlayer(models.Model):

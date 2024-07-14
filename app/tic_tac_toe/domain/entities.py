@@ -80,12 +80,9 @@ class GameSession(Entity):
     status: GameSessionStatus = GameSessionStatus.WAITING_FOR_PLAYER
     players: List[Player]
     next_turn: int = 0
-    winner: Optional[Player] = None
+    host: str
+    winner: Optional[str] = None
     is_over: bool = False
-
-    @property
-    def host(self):
-        return self.players[0]
 
     def set_next_turn(self):
         self.next_turn = (self.next_turn + 1) % len(self.players)
