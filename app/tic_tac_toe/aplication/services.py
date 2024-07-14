@@ -289,6 +289,9 @@ class ListOverPlayerSessionsService(Service):
     _game_repository = inject.instance(IGameRepository)
 
     def execute(self, player_name: str) -> list:
-        sessions = self._game_repository.list_over_player_sessions(player_name)
+        sessions = self._game_repository.list_over_player_sessions(
+            player_name=player_name,
+            limit=5,
+        )
 
         return sessions

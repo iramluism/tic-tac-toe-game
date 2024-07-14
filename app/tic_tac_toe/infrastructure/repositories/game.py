@@ -105,14 +105,21 @@ class GameRepository(IGameRepository):
         game_session = self._map_to_game_session_entity(db_game_session, db_players)
         return game_session
 
-    def list_over_player_sessions(self, player_name: str) -> List[GameSession]:
+    def list_over_player_sessions(
+        self, player_name: str, limit: Optional[int] = None
+    ) -> List[GameSession]:
         queryset = models.GameSession.objects.filter(
             Q(gamesessionplayer__name=player_name)
             & Q(status=GameSessionStatus.OVER.value)
         )
 
+        db_game_sessions = list(reversed(queryset))
+
+        if limit:
+            db_game_sessions = db_game_sessions[:limit]
+
         game_sessions = []
-        for db_game_session in queryset:
+        for db_game_session in db_game_sessions:
             db_players = models.GameSessionPlayer.objects.filter(
                 Q(game_session_id=db_game_session)
             )

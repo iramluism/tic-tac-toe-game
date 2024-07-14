@@ -26,7 +26,9 @@ class IGameRepository:
     def list_open_sessions(self, limit: Optional[int] = None) -> List[GameSession]:
         raise NotImplementedError()
 
-    def list_over_player_sessions(self, player_name: str) -> List[GameSession]:
+    def list_over_player_sessions(
+        self, player_name: str, limit: Optional[int] = None
+    ) -> List[GameSession]:
         raise NotImplementedError()
 
     def close_session(self, game_session: GameSession) -> GameSession:
