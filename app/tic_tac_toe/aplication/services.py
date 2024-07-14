@@ -10,6 +10,7 @@ from tic_tac_toe.domain.entities import Player
 from tic_tac_toe.domain.entities import TicTacToeGame
 from tic_tac_toe.domain.object_values import CROSS
 from tic_tac_toe.domain.object_values import GameSessionStatus
+from tic_tac_toe.domain.object_values import Item
 from tic_tac_toe.domain.object_values import NOUGHT
 from tic_tac_toe.domain.object_values import PlayerAction
 from tic_tac_toe.domain.object_values import UserSession
@@ -112,9 +113,9 @@ class StartTicTacToeGameService(Service):
 
 
 class CheckGameSessionBoardService(Service):
-    def execute(self, board: Board):
+    def execute(self, board: Board, item: Item):
         for vector in board.get_vector():
-            if all(item == vector[0] for item in vector):
+            if all(board_item == item for board_item in vector):
                 return vector[0]
 
         return False
@@ -124,17 +125,18 @@ class ResolveGameSessionStatusService(Service):
     _check_game_session_board_srv = inject.instance(CheckGameSessionBoardService)
 
     def execute(self, turn: GameSessionTurn) -> GameSessionTurn:
-        completed_vector_item = self._check_game_session_board_srv.execute(
-            turn.game_session.game.board
-        )
-        if completed_vector_item:
-            turn.game_session.winner = turn.player.name
-            turn.change_to_status = GameSessionStatus.OVER
-            turn.change_status_reason = f"{turn.player.name} wins!"
+        if turn.game_session.status == GameSessionStatus.RUNNING:
+            completed_vector_item = self._check_game_session_board_srv.execute(
+                turn.game_session.game.board, turn.item
+            )
+            if completed_vector_item:
+                turn.game_session.winner = turn.player.name
+                turn.change_to_status = GameSessionStatus.OVER
+                turn.change_status_reason = f"{turn.player.name} wins!"
 
-        if turn.game_session.game.board.is_full():
-            turn.change_to_status = GameSessionStatus.OVER
-            turn.change_status_reason = "Draw!"
+            if turn.game_session.game.board.is_full():
+                turn.change_to_status = GameSessionStatus.OVER
+                turn.change_status_reason = "Draw!"
 
         if turn.change_to_status:
             turn.game_session.status = turn.change_to_status
