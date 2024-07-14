@@ -1,9 +1,12 @@
 
 {% extends "base.html" %}
 {% load static %}
+
+
 {% block app %} 
 
 <div class="login-container">
+    <a style="color: white;" href="{% url 'login' %}"> Back to Login </a>
   <h2>Tic Tac Toe Game</h2>
       <div class="input-group">
           <label for="username">Username</label>
