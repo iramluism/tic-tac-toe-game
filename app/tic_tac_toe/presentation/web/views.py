@@ -98,13 +98,20 @@ class GameSessionHistoryView(BaseView):
 
         game_sessions_ctx = []
         for session in game_sessions:
+            result_status = "Draw"
+            if session.winner:
+                if session.winner == player.name:
+                    result_status = "Won"
+                else:
+                    result_status = "Lost"
+
             game_sessions_ctx.append(
                 {
                     "id": session.id,
                     "host": session.host,
                     "winner": session.winner,
                     "players": [player.name for player in session.players],
-                    "result_status": "Won" if session.winner == player.name else "Lost",
+                    "result_status": result_status,
                 }
             )
 
