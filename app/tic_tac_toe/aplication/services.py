@@ -55,6 +55,18 @@ class AuthenticatePlayer(Service):
         return user_session
 
 
+class GetGameSessionService(Service):
+    _game_repository = inject.instance(IGameRepository)
+
+    def execute(self, game_session_id: str) -> GameSession:
+        game_session = self._game_repository.get_session(game_session_id)
+
+        if not game_session:
+            raise exceptions.InvalidGameSessionException()
+
+        return game_session
+
+
 class ValidateUserSessionService(Service):
     _player_repository = inject.instance(IPlayerRepository)
 

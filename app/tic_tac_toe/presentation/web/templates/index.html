@@ -8,17 +8,17 @@
             <button class="play-button" onclick="startGame()">Play</button>
             <h2>Open Games</h2>
             <ul class="open-sessions-list">
+                {% for session in open_sessions %}
+                    <li>
+                        <span>{{session.host}}</span>
+                        <a class="connect-button" href="{% url 'game-session' session.id %}" > Connect </a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
 
 </div>
 
-
-<script type="text/javascript">
-    window.onload = function () { 
-        fetchOpenSessions()
-    }
-</script>
 
 {% endblock %}

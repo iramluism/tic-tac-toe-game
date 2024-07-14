@@ -83,6 +83,10 @@ class GameSession(Entity):
     winner: Optional[Player] = None
     is_over: bool = False
 
+    @property
+    def host(self):
+        return self.players[0]
+
     def set_next_turn(self):
         self.next_turn = (self.next_turn + 1) % len(self.players)
 

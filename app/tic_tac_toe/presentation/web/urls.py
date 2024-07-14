@@ -6,4 +6,9 @@ urlpatterns = [
     path("/login", views.login, name="login"),
     path("/game", views.game, name="game"),
     path("/register", views.register, name="register"),
+    path(
+        "/game-session/<str:session_id>",
+        views.GameSessionView.as_view(),
+        name="game-session",
+    ),
 ]

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %} 
+<div id="game-session-container"  name="{{session_id}}">
+    <h1 class="game-title"> Tic Tac Toe </h1>
+    
+    <div class="main-card">
+        <a type="button" class="close-button" href="{% url 'index' %}" > Close </a> 
+        
+        <div class="game-container"> 
+
+            <div class="open-sessions-list-container">
+            
+                <h2 class="game-head">Waiting For Host</h2>   
+                <p class="game-host"> {{host}} </p>
+            </div>
+    
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
