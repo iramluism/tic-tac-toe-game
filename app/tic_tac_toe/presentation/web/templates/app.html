@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block app %} 
+<div>
+    <h1 class="game-title"> Tic Tac Toe </h1>
+    <div class="main-card">
+
+        {% block header_content %}
+        <a type="button" class="close-button" href="/web"> Close </a> 
+        {% endblock %}
+
+        <div class="game-container"> 
+
+            <div class="open-sessions-list-container">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,24 +1,22 @@
-{% extends "base.html" %}
+{% extends "app.html" %}
 {% load static %}
+
+{% block header_content %}
+    <a type="button" class="close-button" href="/web"> Close </a> 
+{% endblock %}
+
+
 {% block content %} 
-<div>
-    <h1 class="game-title"> Tic Tac Toe </h1>
-    <div class="main-card">
-        <div class="open-sessions-list-container">
-            <a class="play-button" href="{% url 'start-game-session' %}">Play</a>
-            <h2>Open Games</h2>
-            <ul class="open-sessions-list">
-                {% for session in open_sessions %}
-                    <li>
-                        <span>{{session.host}}</span>
-                        <a class="connect-button" href="{% url 'game-session' session.id %}" > Connect </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 
-</div>
-
+    <a class="play-button" href="{% url 'start-game-session' %}">Play</a>
+    <h2>Open Games</h2>
+    <ul class="open-sessions-list">
+        {% for session in open_sessions %}
+            <li>
+                <span>{{session.host}}</span>
+                <a class="connect-button" href="{% url 'game-session' session.id %}" > Connect </a>
+            </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}
