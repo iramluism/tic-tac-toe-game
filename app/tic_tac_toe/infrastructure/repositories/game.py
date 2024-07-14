@@ -134,8 +134,9 @@ class GameRepository(IGameRepository):
 
     def list_open_player_sessions(self, player_name) -> List[GameSession]:
         q_conditions = Q(host=player_name) & (
-            ~Q(status=GameSessionStatus.OVER.value)
-            | ~Q(status=GameSessionStatus.CLOSED.value)
+            Q(status=GameSessionStatus.WAITING_FOR_PLAYER.value)
+            | Q(status=GameSessionStatus.WAITING_FOR_HOST_APPROVAL.value)
+            | Q(status=GameSessionStatus.RUNNING.value)
         )
 
         queryset = models.GameSession.objects.filter(q_conditions)
