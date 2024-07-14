@@ -18,5 +18,13 @@
         </div>
     </div>
 </div>
-    
+
+<script type="text/javascript">
+    gameSessionContainer = document.querySelector("#game-session-container")
+    gameSessionId = gameSessionContainer.getAttribute("name")
+    window.onload = function () { 
+        waitForHostApproval(gameSessionId, "{% url 'game' %}", "{% url 'index' %}")
+    }
+</script>
+
 {% endblock %}

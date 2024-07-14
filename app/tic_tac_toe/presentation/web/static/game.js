@@ -29,29 +29,6 @@ const startGame = () => {
     .catch((error) => console.error(error));
 }
 
-const ConnectSession = (sessionId) => {
-
-    channel = startGameChannel(sessionId)
-    channel.onmessage = (e) => {
-        let data = JSON.parse(e.data)
-
-        let message = data.message
-
-        if(message.game_session_status === "RUNNING"){
-
-            localStorage.setItem("is_host", false)
-            localStorage.setItem("gameSessionId", sessionId)
-            location.href = "/web/game"
-        }
-    }
-
-
-    channel.addEventListener('open', function (event) {
-        const message = JSON.stringify({ action: "connect" })
-        channel.send(message)
-    })
-
-}
 
 
 const GameSessionComponent = ({host, bottonMessage, onClickButton}) => {
@@ -143,10 +120,6 @@ const startGameChannel = (gameSessionId) => {
             overMessage(channel, message)
         }
     }
-
-    channel.addEventListener("open", () => {
-        channel.send(JSON.stringify({action: "resume"}))
-    })
 
     channel.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
@@ -249,6 +222,59 @@ const addChannelToGame = (channel) => {
 const initChannelForPlayer = () => {
     let channel = startGameChannel()
     addChannelToGame(channel)
+     channel.addEventListener("open", () => {
+        channel.send(JSON.stringify({action: "resume"}))
+    })
 }
 
+
+const waitForHostApproval = (gameSessionId, on_admit_redirect_to, on_reject_redirect_to) => {
+    channel = startGameChannel(gameSessionId)
+
+    channel.onmessage = (e) => {
+        let data = JSON.parse(e.data)
+
+        let message = data.message
+
+        if(message.game_session_status === "RUNNING"){
+
+            localStorage.setItem("is_host", false)
+            localStorage.setItem("gameSessionId", gameSessionId)
+            location.href = on_admit_redirect_to
+        }else if(message.game_session_status === "WAITING_FOR_PLAYER") {
+            location.href = on_reject_redirect_to
+        }
+    }
+
+
+    channel.addEventListener('open', function (event) {
+        const message = JSON.stringify({ action: "connect" })
+        channel.send(message)
+    })
+}
+
+
+const ConnectSession = (sessionId) => {
+
+    channel = startGameChannel(sessionId)
+    channel.onmessage = (e) => {
+        let data = JSON.parse(e.data)
+
+        let message = data.message
+
+        if(message.game_session_status === "RUNNING"){
+
+            localStorage.setItem("is_host", false)
+            localStorage.setItem("gameSessionId", sessionId)
+            location.href = "/web/game"
+        }
+    }
+
+
+    channel.addEventListener('open', function (event) {
+        const message = JSON.stringify({ action: "connect" })
+        channel.send(message)
+    })
+
+}
 // var gameSocket = startGameChannel();
