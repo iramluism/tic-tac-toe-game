@@ -1,4 +1,6 @@
 pydantic==2.5.3
-django==3.2.25
+django==5.0.7
 channels[daphne]==4.1.0
 pyjwt==2.8.0
+inject==5.2.1
+channels-redis==4.2.0

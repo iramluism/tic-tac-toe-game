@@ -1,4 +1,4 @@
-version: ""
+version: '3.8' # o la versión que estés usando
 
 services:
   api: 
@@ -9,8 +9,16 @@ services:
       - '8000:8000'
     volumes:
       - ./../app:/app
+    networks:
+      - my_network
 
   redis_channels:
     image: redis
     ports:
-      - 6379:6379
+      - '6379:6379'
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge

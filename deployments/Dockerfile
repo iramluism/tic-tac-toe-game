@@ -1,10 +1,10 @@
-FROM  python:3.7-alpine AS builder
+FROM  python:3.10-alpine AS builder
 EXPOSE 8000
 WORKDIR /app 
 COPY requirements/prod.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt --no-cache-dir
 COPY ./app /app 
 
-RUN python manage.py makemigrations && python manage.py migrate
+COPY deployments/deploy.sh /etc/app/deploy.sh
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["sh", "/etc/app/deploy.sh"]
