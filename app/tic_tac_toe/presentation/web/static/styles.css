@@ -75,7 +75,7 @@ button:hover {
 }
 
 /* User list container styling */
-.user-list-container {
+.open-sessions-list-container {
     background: white;
     padding: 30px;
     border-radius: 10px;
@@ -86,12 +86,12 @@ button:hover {
 }
 
 /* User list styling */
-.user-list {
+.open-sessions-list {
     list-style: none;
     padding: 0;
 }
 
-.user-list li {
+.open-sessions-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,7 +116,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-.game-head {
+.game-title {
     color: white;
     font-size: 24px;
     margin-bottom: 20px;
@@ -169,4 +169,10 @@ button:hover {
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
+}
+
+
+.player-turn {
+    color: gray;
+    justify-content: left;
 }

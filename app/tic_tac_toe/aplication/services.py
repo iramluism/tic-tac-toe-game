@@ -189,6 +189,10 @@ class PlayGameService(Service):
                 GameSessionStatus.WAITING_FOR_PLAYER,
             ): self._connect_to_game_srv,
             (
+                PlayerAction.CONNECT,
+                GameSessionStatus.WAITING_FOR_HOST_APPROVAL,
+            ): self._connect_to_game_srv,
+            (
                 PlayerAction.ADMIT_PLAYER,
                 GameSessionStatus.WAITING_FOR_HOST_APPROVAL,
             ): self._admit_player_srv,

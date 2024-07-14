@@ -15,8 +15,6 @@ const onLogin = () => {
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
 
-    debugger
-
     const raw = JSON.stringify({
         "name": username,
         "password": password
@@ -32,7 +30,6 @@ const onLogin = () => {
         redirect: "follow"
         };      
 
-    debugger
     return fetch("/api/v1/player/auth", requestOptions)
     .then((response) => {
         if (!response.ok) {

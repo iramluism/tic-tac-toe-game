@@ -2,33 +2,20 @@
 {% load static %}
 {% block content %} 
 <div>
-    <h1 class="game-head"> Tic Tac Toe </h1>
-    <div class="user-list-container">
-        <button class="play-button" onclick="startGame()">Jugar</button>
-        <h2>Usuarios</h2>
-        <ul class="user-list">
-            <li>
-                <span>Usuario1</span>
-                <button class="connect-button">Conectar</button>
-            </li>
-            <li>
-                <span>Usuario2</span>
-                <button class="connect-button">Conectar</button>
-            </li>
-            <li>
-                <span>Usuario3</span>
-                <button class="connect-button">Conectar</button>
-            </li>
-            <li>
-                <span>Usuario4</span>
-                <button class="connect-button">Conectar</button>
-            </li>
-            <li>
-                <span>Usuario5</span>
-                <button class="connect-button">Conectar</button>
-            </li>
+    <h1 class="game-title"> Tic Tac Toe </h1>
+    <div class="open-sessions-list-container">
+        <button class="play-button" onclick="startGame()">Play</button>
+        <h2>Open Games</h2>
+        <ul class="open-sessions-list">
         </ul>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    window.onload = function () { 
+        fetchOpenSessions()
+    }
+</script>
 
 {% endblock %}
