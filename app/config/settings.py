@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,11 +34,13 @@ ALLOWED_HOSTS = ["localhost", "[::0]", "192.168.1.131"]
 
 ASGI_APPLICATION = "tic_tac_toe.presentation.rest.asgi.application"
 
+REDIS_CHANNEL_HOST = config("REDIS_CHANNEL_HOST", default="redis_channels")
+REDIS_CHANNEL_PORT = config("REDIS_CHANNEL_PORT", default=6379)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis_channels", 6379)],
+            "hosts": [(REDIS_CHANNEL_HOST, REDIS_CHANNEL_PORT)],
         },
     },
 }
