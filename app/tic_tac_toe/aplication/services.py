@@ -217,6 +217,7 @@ class PlayGameService(Service):
 
         if (
             turn.game_session.status == GameSessionStatus.RUNNING
+            and turn.action != PlayerAction.RESUME
             and turn.player.name != next_turn_player.name
         ):
             raise exceptions.ActionNotAllowedException()
