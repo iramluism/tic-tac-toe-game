@@ -5,7 +5,7 @@
     <h1 class="game-title"> Tic Tac Toe </h1>
     <div class="main-card">
         <div class="open-sessions-list-container">
-            <button class="play-button" onclick="startGame()">Play</button>
+            <a class="play-button" href="{% url 'start-game-session' %}">Play</a>
             <h2>Open Games</h2>
             <ul class="open-sessions-list">
                 {% for session in open_sessions %}

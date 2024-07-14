@@ -25,6 +25,7 @@ class IndexView(BaseView):
     template_name = "index.html"
 
     _list_open_sessions_srv = inject.instance(services.ListOpenGameSessionsService)
+    _validate_user_session_srv = inject.instance(services.ValidateUserSessionService)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         open_sessions = self._list_open_sessions_srv.execute()
@@ -49,6 +50,25 @@ class GameSessionView(BaseView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         session_id = self.kwargs["session_id"]
         game_session = self._get_game_session_srv.execute(session_id)
+
+        context = {
+            "session_id": game_session.id,
+            "host": game_session.host.name,
+        }
+
+        return context
+
+
+class StartGameSessionView(BaseView):
+    template_name = "start_game_session.html"
+
+    _start_tic_tac_toe_game_srv = inject.instance(services.StartTicTacToeGameService)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        user_session = self.request.COOKIES.get("userSession")
+        player = self._validate_user_session_srv.execute(user_session)
+
+        game_session = self._start_tic_tac_toe_game_srv.execute(player_name=player.name)
 
         context = {
             "session_id": game_session.id,

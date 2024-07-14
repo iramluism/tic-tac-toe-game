@@ -108,13 +108,12 @@ const startGameChannel = (gameSessionId) => {
     const channel = new WebSocket(url);
 
     channel.onmessage = (e) => {
+        debugger
         let data = JSON.parse(e.data)
 
         let message = data.message
 
-        if(is_user_host && message.game_session_status === "WAITING_FOR_HOST_APPROVAL") {
-            waitingForHostApprovalMessage(channel, message)
-        }else if(message.game_session_status === "RUNNING") {
+        if(message.game_session_status === "RUNNING") {
             runningMessage(channel, message)
         } else if (message.game_session_status == "OVER") {
             overMessage(channel, message)
@@ -220,6 +219,7 @@ const addChannelToGame = (channel) => {
 }
 
 const initChannelForPlayer = () => {
+    debugger
     let channel = startGameChannel()
     addChannelToGame(channel)
      channel.addEventListener("open", () => {
@@ -227,6 +227,26 @@ const initChannelForPlayer = () => {
     })
 }
 
+
+const findPlayers = (gameSessionId, onAdmitRedirectTo) => {
+
+    channel = startGameChannel(gameSessionId)
+
+    channel.onmessage = (e) => {
+        let data = JSON.parse(e.data)
+
+        let message = data.message
+
+        if(message.game_session_status === "WAITING_FOR_HOST_APPROVAL") {
+            waitingForHostApprovalMessage(channel, message)
+        } else if(message.game_session_status === "RUNNING") {
+            localStorage.setItem("is_host", true)
+            localStorage.setItem("gameSessionId", gameSessionId)
+            location.href = onAdmitRedirectTo
+        }
+    }
+
+}
 
 const waitForHostApproval = (gameSessionId, on_admit_redirect_to, on_reject_redirect_to) => {
     channel = startGameChannel(gameSessionId)
@@ -252,7 +272,6 @@ const waitForHostApproval = (gameSessionId, on_admit_redirect_to, on_reject_redi
         channel.send(message)
     })
 }
-
 
 const ConnectSession = (sessionId) => {
 
