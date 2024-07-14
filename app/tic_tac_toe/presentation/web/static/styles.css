@@ -79,14 +79,22 @@ button:hover {
     justify-self: left;
 }
 
-.game-container {
+.main-card {
     background: white;
     padding: 30px;
+    width: 400px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Increased width */
-    position: relative; /* For absolute positioning of the play button */
+}
 
+.game-container {
+    width: 400px; /* Ancho aumentado */
+    position: relative; /* Para el posicionamiento absoluto del botón de jugar */
+    
+    /* Centrar el contenido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* User list container styling */
