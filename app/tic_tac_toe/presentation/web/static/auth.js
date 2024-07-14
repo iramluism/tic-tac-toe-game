@@ -11,6 +11,46 @@ const isUserAuthenticated = () => {
     return userSession
 }
 
+function saveUserSession(userSession) {
+    localStorage.setItem("userSession", userSession)
+    setCookie("userSession", userSession, 900)
+}
+
+function getUserSession() {
+    return localStorage.getItem("userSession")
+}
+
+function removeUserSession() {
+    localStorage.removeItem("userSession")
+    setCookie("userSession", "", 0)
+    window.location.href = "/web/login"
+}
+
+
+function setCookie(cname, cvalue, expSeconds) {
+    const d = new Date();
+    d.setTime(d.getTime() + (expSeconds*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 const onLogin = () => {
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
@@ -38,7 +78,7 @@ const onLogin = () => {
         return response.json()
     })
     .then((result) => {
-        localStorage.setItem("userSession", result.user_session)
+        saveUserSession(result.user_session)
         window.location.href = "/web"
     })
     .catch((error) => console.error(error));
@@ -72,7 +112,7 @@ const onSignUp = () => {
         return response.json()
     })
     .then((result) => {
-        localStorage.setItem("userSession", result.user_session)
+        saveUserSession(result.user_session)
         window.location.href = "/web"
     })
     .catch((error) => console.error(error));
