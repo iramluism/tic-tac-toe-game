@@ -11,3 +11,7 @@ def login(request):
 
 def game(request):
     return render(request, "game.html")
+
+
+def register(request):
+    return render(request, "register.html")

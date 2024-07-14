@@ -45,5 +45,36 @@ const onLogin = () => {
 }
 
 
-isUserAuthenticated()
+const onSignUp = () => {
+    const username = document.getElementById("username").value
+    const password = document.getElementById("password").value
+
+    const raw = JSON.stringify({
+        "name": username,
+        "password": password
+      });
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+        
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+        };      
+
+    return fetch("/api/v1/player", requestOptions)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Invalid User");
+        }
+        return response.json()
+    })
+    .then((result) => {
+        localStorage.setItem("userSession", result.user_session)
+        window.location.href = "/web"
+    })
+    .catch((error) => console.error(error));
+}
 
