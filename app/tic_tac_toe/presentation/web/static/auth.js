@@ -23,7 +23,6 @@ function getUserSession() {
 function removeUserSession() {
     localStorage.removeItem("userSession")
     setCookie("userSession", "", 0)
-    window.location.href = "/web/login"
 }
 
 
@@ -49,6 +48,15 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function removeCookies() {
+    document.cookie = ""
+}
+
+const logoutUser = () => {
+    removeUserSession()
+    window.location.href = "/web/login"
 }
 
 const onLogin = () => {

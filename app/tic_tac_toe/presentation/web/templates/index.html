@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block header_content %}
-    <a type="button" class="close-button" href="/web"> Close </a> 
+    <a type="button" id="logout-button" class="close-button" href=""> Log out </a> 
 {% endblock %}
 
 
@@ -18,5 +18,12 @@
             </li>
         {% endfor %}
     </ul>
+
+    <script>
+        const link = document.querySelector('#logout-button');
+        link.addEventListener('click', (event) => {
+            logoutUser()
+        });
+    </script>
 
 {% endblock %}
