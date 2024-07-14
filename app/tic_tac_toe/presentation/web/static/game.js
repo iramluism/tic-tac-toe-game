@@ -108,7 +108,7 @@ const startGameChannel = (gameSessionId) => {
     const channel = new WebSocket(url);
 
     channel.onmessage = (e) => {
-        debugger
+        
         let data = JSON.parse(e.data)
 
         let message = data.message
@@ -219,7 +219,7 @@ const addChannelToGame = (channel) => {
 }
 
 const initChannelForPlayer = () => {
-    debugger
+    
     let channel = startGameChannel()
     addChannelToGame(channel)
      channel.addEventListener("open", () => {

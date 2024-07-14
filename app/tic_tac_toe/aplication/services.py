@@ -255,5 +255,12 @@ class PlayGameService(Service):
 class ListOpenGameSessionsService(Service):
     _game_repository = inject.instance(IGameRepository)
 
-    def execute(self) -> list:
-        return self._game_repository.list_open_sessions(limit=5)
+    def execute(self, player_name: str) -> list:
+        open_sessions = self._game_repository.list_open_sessions(limit=5)
+
+        open_sessions_for_player = []
+        for session in open_sessions:
+            if session.host.name != player_name:
+                open_sessions_for_player.append(session)
+
+        return open_sessions_for_player

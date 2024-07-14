@@ -13,6 +13,10 @@ from tic_tac_toe.presentation.web import utils
 class BaseView(TemplateView):
     _validate_user_session_srv = inject.instance(services.ValidateUserSessionService)
 
+    def get_player(self):
+        user_session = self.request.COOKIES.get("userSession")
+        return self._validate_user_session_srv.execute(user_session)
+
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         user_session = self.request.COOKIES.get("userSession")
         if not utils.validate_user_session(user_session):
@@ -28,7 +32,8 @@ class IndexView(BaseView):
     _validate_user_session_srv = inject.instance(services.ValidateUserSessionService)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        open_sessions = self._list_open_sessions_srv.execute()
+        player = self.get_player()
+        open_sessions = self._list_open_sessions_srv.execute(player_name=player.name)
 
         open_session_ctx = []
         for session in open_sessions:
