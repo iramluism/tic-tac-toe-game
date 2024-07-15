@@ -2,8 +2,10 @@ from django.urls import path
 from django.urls import re_path
 from tic_tac_toe.presentation.rest.views import game as game_views
 from tic_tac_toe.presentation.rest.views import player as player_views
+from tic_tac_toe.presentation.rest.views import tools as tools_views
 
 urlpatterns = [
+    path("/health", tools_views.HealthCheckView.as_view()),
     path("/player", player_views.CreatePlayerView.as_view()),
     path("/player/auth", player_views.AuthPlayerView.as_view()),
     path("/games/start", game_views.StartGameView.as_view()),
