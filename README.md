@@ -125,7 +125,12 @@ DEBUG=True
 ```
 
 ## Run Tests
-Execute this command in your terminal
+1. Go to the app folder
+```bash
+cd app
+```
+
+2. Execute this command in your terminal
 ```bash
 python -m pytest -vv . 
 ```
