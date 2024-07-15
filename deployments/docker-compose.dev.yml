@@ -1,0 +1,28 @@
+version: '3.8' # o la versión que estés usando
+
+services:
+  api: 
+    build:
+      context: ./../
+      dockerfile: ./deployments/Dockerfile
+    ports: 
+      - '8000:8000'
+    volumes:
+      - db_data:/app/db.sqlite3
+    networks:
+      - my_network
+
+  redis_channels:
+    image: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
+
+volumes:
+  db_data:
