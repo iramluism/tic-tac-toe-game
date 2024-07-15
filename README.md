@@ -12,6 +12,7 @@
 7. [How run the Project](#how-run-the-project)
 8. [How run the project with docker?](#how-run-the-project-with-docker)
 9. [For Local Development](#for-local-development)
+10. [Run Tests](#run-tests)
 
 
 ## Introduction
@@ -121,4 +122,10 @@ pre-commit install
 ```bash
 # .env
 DEBUG=True
+```
+
+## Run Tests
+Execute this command in your terminal
+```bash
+python -m pytest -vv . 
 ```
