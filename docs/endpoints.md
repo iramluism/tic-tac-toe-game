@@ -151,7 +151,7 @@ Game Session status:
 1. **WAITING_FOR_PLAYER**: Waiting for players to start the game 
 2. **WAITING_FOR_HOST_APPROVAL**: A request was sent to the host and the app is waiting for the approval. 
 3. **RUNNING**: The app is running
-4. **CLOSED**: The all never started and the game close, every time a user want to start a new game session the app close the remaind open sessions. 
+4. **CLOSED**: The game session never started. Every time a user want to start a new game session the app close the remaind open sessions. 
 5. **OVER**: The game is over. 
 
 ```json
