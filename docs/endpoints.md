@@ -182,20 +182,6 @@ Game Session status:
     }
 }
 ```
-# PUT /api/v1/game/{game_id}/
-Description: Update details of a specific game.
-Parameters: game_id - ID of the game.
-Request Body: JSON object with updated game details.
-Response: JSON object with updated game details.
-DELETE /api/v1/game/{game_id}/
-Description: Delete a specific game.
-Parameters: game_id - ID of the game.
-Response: HTTP 204 No Content on successful deletion.
-POST /api/v1/game/{game_id}/move/
-Description: Make a move in the game board.
-Parameters: game_id - ID of the game.
-Request Body: JSON object with move details (player and position).
-Response: JSON object with updated game details after the move.
 
 
 ## `GET` /api/v1/games/history
