@@ -80,17 +80,22 @@ cd app
 python manage.py migrate
 ```
 6. Define the following envaironment variables in the `.env` file.
-```bash
+```conf
 REDIS_CHANNEL_HOST=localhost
 REDIS_CHANNEL_PORT=6379
 ```
 
-7. Run the server
+7. Define Allowed hosts
+```conf
+ALLOWED_HOSTS=localhost,127.0.0.1,your-custo-host
+```
+
+8. Run the server
 ```bash
 python manage.py runserver 8080
 ```
 
-8. Make an healthcheck request to the API to check if is running. 
+9. Make an healthcheck request to the API to check if is running. 
 ```bash
 curl --location 'localhost:8080/api/v1/health'
 ```
@@ -111,4 +116,9 @@ pip install -r requirements/dev.txt
 2. Install pre-commits
 ```bash
 pre-commit install
+```
+3. Debug the app. 
+```bash
+# .env
+DEBUG=True
 ```
