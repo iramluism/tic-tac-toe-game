@@ -4,21 +4,25 @@
 
 ## Index
 1. [Introduction](#introduction)
-2. [Quick Guide](#quick-guide)
-3. [Api Docs](#api-docs)
-4. [Prerequisites](#prerequisites)
-5. [Dependencies](#dependencies)
-6. [Installing Docker](#installing-docker)
-7. [How run the Project](#how-run-the-project)
-8. [How run the project with docker?](#how-run-the-project-with-docker)
-9. [For Local Development](#for-local-development)
-10. [Run Tests](#run-tests)
+2. [Arquitecture](#arquitecture)
+3. [Quick Guide](#quick-guide)
+4. [Api Docs](#api-docs)
+5. [Prerequisites](#prerequisites)
+6. [Dependencies](#dependencies)
+7. [Installing Docker](#installing-docker)
+8. [How run the Project](#how-run-the-project)
+9. [How run the project with docker?](#how-run-the-project-with-docker)
+10. [For Local Development](#for-local-development)
+11. [Run Tests](#run-tests)
 
 
 ## Introduction
 This document will walk you through the process of setting up the project, including installing Docker, running basic Docker commands, and understanding the dependencies required. By the end of this guide, you will be able to run the Tic Tac Toe game both locally and within a Docker container. 
 
 For more information on the software architecture, please visit this [link](./docs/arquitecture.md).
+
+## Arquitecture
+Go to this page [Arquitecture](./docs/arquitecture.md)
 
 ## Quick Guide 
 Go to this page [Quick Quide through out Web Page](./docs/quickguide.md)
