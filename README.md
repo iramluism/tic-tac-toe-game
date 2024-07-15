@@ -11,6 +11,7 @@
 6. [Installing Docker](#installing-docker)
 7. [How run the Project](#how-run-the-project)
 8. [How run the project with docker?](#how-run-the-project-with-docker)
+9. [For Local Development](#for-local-development)
 
 
 ## Introduction
@@ -65,26 +66,31 @@ Follow this steps:
 source env/bin/activate
 ```
 
-3. Go to app folder
+3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+4. Go to app folder
 ```bash
 cd app
 ```
-4. Run the migrations.
+5. Run the migrations.
 ```bash
 python manage.py migrate
 ```
-5. Define the following envaironment variables in the `.env` file.
+6. Define the following envaironment variables in the `.env` file.
 ```bash
 REDIS_CHANNEL_HOST=localhost
 REDIS_CHANNEL_PORT=6379
 ```
 
-6. Run the server
+7. Run the server
 ```bash
 python manage.py runserver 8080
 ```
 
-7. Make an healthcheck request to the API to check if is running. 
+8. Make an healthcheck request to the API to check if is running. 
 ```bash
 curl --location 'localhost:8080/api/v1/health'
 ```
@@ -94,4 +100,15 @@ curl --location 'localhost:8080/api/v1/health'
 Run this command in your terminal. 
 ```bash
 docker compose -f ./deployments/docker-compose.yml up 
+```
+
+
+## For Local Development 
+1.Execute this command in your terminal
+```bash
+pip install -r requirements/dev.txt
+```
+2. Install pre-commits
+```bash
+pre-commit install
 ```
