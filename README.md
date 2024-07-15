@@ -54,7 +54,7 @@ Check this links:
 
 Prerequisites:
 1. A redis server up. You can use one of the docker defined services, check this [How run the project with docker?](#how-run-the-project-with-docker)
-2. python3 installed and configurated. 
+2. python3.10 installed and configurated. 
 3. Write access in the root folder of the project.
 
 > **Note:**
