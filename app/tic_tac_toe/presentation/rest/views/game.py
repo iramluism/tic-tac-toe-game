@@ -6,7 +6,7 @@ from channels.generic.websocket import WebsocketConsumer
 from django.http import JsonResponse
 from django.views import View
 import inject
-from tic_tac_toe.aplication import services
+from tic_tac_toe.application import services
 from tic_tac_toe.domain.exceptions import DomainException
 from tic_tac_toe.presentation.rest.serializers import GameSessionSerializer
 from tic_tac_toe.presentation.rest.serializers import GameSessionTurnSerializer

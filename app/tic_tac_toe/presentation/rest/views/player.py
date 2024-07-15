@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views import View
 import inject
-from tic_tac_toe.aplication import services
+from tic_tac_toe.application import services
 from tic_tac_toe.presentation.rest.serializers import PlayerSerializer
 
 

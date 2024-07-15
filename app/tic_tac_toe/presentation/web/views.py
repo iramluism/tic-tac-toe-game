@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 import inject
-from tic_tac_toe.aplication import services
+from tic_tac_toe.application import services
 from tic_tac_toe.presentation.web import utils
 
 

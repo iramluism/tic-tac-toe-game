@@ -1,5 +1,5 @@
 import inject
-from tic_tac_toe.aplication import services
+from tic_tac_toe.application import services
 from tic_tac_toe.domain.exceptions import InvalidUserSessionException
 
 
