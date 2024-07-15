@@ -20,7 +20,7 @@ class BaseView(TemplateView):
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         user_session = self.request.COOKIES.get("userSession")
         if not utils.validate_user_session(user_session):
-            return redirect("/web/login")
+            return redirect("/login")
 
         return super().dispatch(request, *args, **kwargs)
 

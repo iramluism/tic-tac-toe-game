@@ -4,8 +4,8 @@
 const isUserAuthenticated = () => {
     const userSession = localStorage.getItem("userSession")
 
-    if (!userSession && window.location.pathname !== "/web/login") {
-        window.location.href = "/web/login"
+    if (!userSession && window.location.pathname !== "/login") {
+        window.location.href = "/login"
     }
 
     return userSession
@@ -56,7 +56,7 @@ function removeCookies() {
 
 const logoutUser = () => {
     removeUserSession()
-    window.location.href = "/web/login"
+    window.location.href = "/login"
 }
 
 const onLogin = () => {
@@ -87,7 +87,7 @@ const onLogin = () => {
     })
     .then((result) => {
         saveUserSession(result.user_session)
-        window.location.href = "/web"
+        window.location.href="/"
     })
     .catch((error) => console.error(error));
 }
@@ -121,7 +121,7 @@ const onSignUp = () => {
     })
     .then((result) => {
         saveUserSession(result.user_session)
-        window.location.href = "/web"
+        window.location.href="/"
     })
     .catch((error) => console.error(error));
 }

@@ -24,7 +24,7 @@ const startGame = () => {
     .then((result) => {
         localStorage.setItem("is_host", true)
         localStorage.setItem("gameSessionId", result.game_session_id)
-        window.location.href = "/web/game"
+        window.location.href = "/game"
     })
     .catch((error) => console.error(error));
 }
@@ -285,7 +285,7 @@ const ConnectSession = (sessionId) => {
 
             localStorage.setItem("is_host", false)
             localStorage.setItem("gameSessionId", sessionId)
-            location.href = "/web/game"
+            location.href = "/game"
         }
     }
 
