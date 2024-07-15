@@ -10,7 +10,7 @@
 
 
 ## Login and Register
-Access to the endpoint. /web. e.x. `http://localhost:8080/web`. You can see the login page. Complete the form and click on login button. 
+Type in the browser this url `http://localhost:8080` (update the host if yoe have configurated a new one) . You can see the login page. Complete the form and click on login button. 
 ![Alt Img](./images/login.png)
 
 If you don't have any account follow the `Register` link and go to the Register page. Complete the form and Sign up.
