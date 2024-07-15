@@ -1,12 +1,29 @@
 # API Endpoints
 
 ## Index 
-1. [Create Player](#post-apiv1player)
-2. [Authenticate Player](#post-apiv1playerauth)
-3. [Start a Game](#post-apiv1gamesstart)
-4  [List open session of other players](#get-apiv1games)
-5. [Game Session Channel](#websocket-wsgamegame_session_id)
-6  [List History Game](#get-apiv1gameshistory)
+1. [Error Codes](#error-codes)
+2. [Create Player](#post-apiv1player)
+3. [Authenticate Player](#post-apiv1playerauth)
+4. [Start a Game](#post-apiv1gamesstart)
+5.  [List open session of other players](#get-apiv1games)
+6. [Game Session Channel](#websocket-wsgamegame_session_id)
+7.  [List History Game](#get-apiv1gameshistory)
+
+
+## Error Codes
+| Message| Code | Description |
+|-------|-------|-------|
+| PLAYER_ALREADY_EXISTS | 100409 | Create a player that already exists |
+| PLAYER_UNAUTHORIZED | 100401 | Player not authorized |
+| INVALID_USER_SESSION | 100403 | Invalid user session  |
+| INVALID_GAME_SESSION | 101403 | Invalid Game Session |
+| INVALID_ACTION | 100400 | Invalid Action |
+| ACTION_NOT_ALLOWED| 102403 | Action not allowed |
+| POSITION_ALREADY_MARKED| 104409 | Position already marked on the board |
+| PLAYER_ALREADY_CONNECTED| 101409 | Player already connected to the game |
+| POSITION_OUT_OF_BOARD| 101400 | position out of the board |
+| INVALID_ITEM| 102400 | Invalid Item to mark on the board |
+
 
 
 ## `POST` /api/v1/player
