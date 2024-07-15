@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
 from pathlib import Path
 
 from decouple import config
+from decouple import Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-t!3_pz8lt3emc00mjentc0%ncw&o&212kz7w($bgs%-_jyev$g"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "[::0]", "192.168.1.131"]
+
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default=["localhost", "127.0.0.1"])
 
 
 # Application definition
